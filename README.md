@@ -4,7 +4,7 @@
 
 AWS SDK Java to Scala translations, wrappers and reinventions
 
-[![License](http://img.shields.io/:license-Apache%202-red.svg)](https://github.com/99taxis/awsscala/blob/master/LICENSE "Apache 2.0 Licence") [![Bintray](https://img.shields.io/bintray/v/asciidoctor/maven/asciidoctorj.svg)](https://bintray.com/99taxis/maven/awsscala/_latestVersion)
+[![License](http://img.shields.io/:license-Apache%202-red.svg)](https://github.com/99taxis/awsscala/blob/master/LICENSE "Apache 2.0 Licence") [![Bintray](https://img.shields.io/bintray/v/99taxis/maven/awsscala.svg)](https://bintray.com/99taxis/maven/awsscala/_latestVersion) [![GitHub tag](https://img.shields.io/github/tag/99taxis/awsscala.svg)](https://github.com/99taxis/awsscala/tags)
 
 ## Using this library
 
