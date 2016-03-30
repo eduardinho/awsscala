@@ -6,7 +6,7 @@ AWS SDK Java to Scala translations, wrappers and reinventions
 
 [![License](http://img.shields.io/:license-Apache%202-red.svg)](https://github.com/99taxis/awsscala/blob/master/LICENSE "Apache 2.0 Licence") [![Bintray](https://img.shields.io/bintray/v/99taxis/maven/awsscala.svg)](https://bintray.com/99taxis/maven/awsscala/_latestVersion) [![Maintenance](https://img.shields.io/maintenance/yes/2016.svg)](https://github.com/99taxis/awsscala/commits/master)
 
-## Using this library
+## Installation
 
 For sbt builds, add the following to your build.sbt:
 
@@ -16,6 +16,18 @@ libraryDependencies += "com.taxis99" %% "awsscala" % "X.Y.Z",
 ```
 
 The version comes from the corresponding Git tag.
+
+## Usage
+
+Assuming you have aws credentials available, substitute the `accessKey = "@key"` and `secretKey = "@secret"` for yours:
+
+```scala
+implicit val awsCredentials = BasicAWSCredentialsProvider(accessKey = "@key", secretKey = "@secret")
+val sqsClient = new SQSClient(queueName = "@queue", sqsEndpoint = "@sqsEndpoint")
+val messages = sqsClient.fetchMessages(maxNumberOfMessages = 10)
+```
+
+For more details see the [tests](https://github.com/99taxis/awsscala/tree/master/src/test/scala/com/taxis99/aws) or the [API docs](http://dev.99taxis.com/awsscala/latest/api/#com.taxis99.aws.package).
 
 ## Instructions for Development
 
