@@ -1,10 +1,13 @@
 package com.taxis99.aws
 
+import java.io.ByteArrayInputStream
 import java.io.{ File => JFile }
+import java.net.URL
 
 import scala.collection.JavaConversions._
 
-import org.mockito.Matchers.anyString
+import org.joda.time.DateTime
+import org.mockito.Matchers.{ any, anyString, same }
 import org.mockito.Mockito.{ mock, times, verify, when }
 import org.scalatest.{ BeforeAndAfter, MustMatchers, WordSpec }
 
@@ -27,6 +30,8 @@ class S3ClientSpec extends WordSpec with MustMatchers with BeforeAndAfter {
         .thenReturn(List[S3ObjectSummary]())
       when(s3.listObjects(anyString(), anyString()))
         .thenReturn(objectListing)
+      when(s3.generatePresignedUrl(any[GeneratePresignedUrlRequest]))
+        .thenReturn(new URL("https://www.99taxis.com"))
       s3
     }
   }
@@ -55,6 +60,42 @@ class S3ClientSpec extends WordSpec with MustMatchers with BeforeAndAfter {
         verify(s3Client.s3, times(1)).putObject("@bucket", "@key", file)
       }
     }
+
+    "upload byte array" should {
+
+      "use inner client putObject" in {
+        val byteArray = mock(classOf[ByteArrayInputStream])
+        s3Client.uploadByteArray("@key", byteArray)
+        verify(s3Client.s3, times(1)).putObject(same("@bucket"), same("@key"), same(byteArray), any())
+      }
+    }
+
+    "set object acl" should {
+
+      "use inner client setObjectAcl" in {
+        val accessControl = CannedAccessControlList.PublicRead
+        s3Client.setObjectAcl("@key", accessControl)
+        verify(s3Client.s3, times(1)).setObjectAcl("@bucket", "@key", accessControl)
+      }
+    }
+
+    "generate presigned url" should {
+
+      "use inner client generatePresignedUrl" in {
+        val url = s3Client.generatePresignedUrl("@key", DateTime.now.plusDays(3))
+        verify(s3Client.s3, times(1)).generatePresignedUrl(any[GeneratePresignedUrlRequest])
+        url must be equals ("https://www.99taxis.com")
+      }
+    }
+
+    "get object" should {
+
+      "use inner client getObject" in {
+        s3Client.getObject("@key")
+        verify(s3Client.s3, times(1)).getObject("@bucket", "@key")
+      }
+    }
+
   }
 
 }

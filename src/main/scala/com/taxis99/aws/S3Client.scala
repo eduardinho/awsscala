@@ -1,8 +1,11 @@
 package com.taxis99.aws
 
+import java.io.ByteArrayInputStream
 import java.io.{ File => JFile }
 
 import scala.collection.JavaConversions._
+
+import org.joda.time.DateTime
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.services.s3.{ AmazonS3, AmazonS3Client }
@@ -19,6 +22,24 @@ class S3Client(bucketName: String)(implicit provider: AWSCredentialsProvider) {
   private lazy val client = create()
 
   def uploadFile(key: String, file: JFile): PutObjectResult = client.putObject(bucketName, key, file)
+
+  def uploadByteArray(key: String, input: ByteArrayInputStream): PutObjectResult = {
+    client.putObject(bucketName, key, input, new ObjectMetadata())
+  }
+
+  def setObjectAcl(key: String, accessControl: CannedAccessControlList) = {
+    client.setObjectAcl(bucketName, key, accessControl)
+  }
+
+  def generatePresignedUrl(key: String, expiration: DateTime) = {
+    client.generatePresignedUrl(
+      new GeneratePresignedUrlRequest(bucketName, key).withExpiration(expiration.toDate)
+    ).toString
+  }
+
+  def getObject(key: String) = {
+    client.getObject(bucketName, key)
+  }
 
   def listFiles(prefix: String) = {
     client.listObjects(bucketName, prefix).getObjectSummaries.sortBy(_.getLastModified).reverse
