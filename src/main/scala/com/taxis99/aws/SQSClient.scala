@@ -10,7 +10,7 @@ import com.taxis99.aws.credentials.AWSCredentialsProvider
 /**
  * Client to handle SQS Interface
  */
-abstract class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCredentialsProvider) {
+class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCredentialsProvider) {
 
   def create(awsCredentials: AWSCredentials = provider.credentials()): AmazonSQS = new AmazonSQSClient(awsCredentials)
 
