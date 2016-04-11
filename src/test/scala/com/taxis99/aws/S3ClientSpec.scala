@@ -1,7 +1,6 @@
 package com.taxis99.aws
 
-import java.io.ByteArrayInputStream
-import java.io.{ File => JFile }
+import java.io.{ ByteArrayInputStream, File => JFile }
 import java.net.URL
 
 import scala.collection.JavaConversions._
