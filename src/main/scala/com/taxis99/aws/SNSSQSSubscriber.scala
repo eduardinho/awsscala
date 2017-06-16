@@ -1,6 +1,6 @@
 package com.taxis99.aws
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.policy.{ Policy, Principal, Resource, Statement }
@@ -71,7 +71,6 @@ abstract class SNSSQSSubscriber(sqsEndpoint: String, snsEndpoint: String)(implic
 
     sqsClient.setQueueAttributes(new SetQueueAttributesRequest()
       .withQueueUrl(queueUrl)
-      .withAttributes(Map(QueueAttributeName.Policy.toString -> policy.toJson)))
+      .withAttributes(Map(QueueAttributeName.Policy.toString -> policy.toJson).asJava))
   }
-
 }

@@ -1,6 +1,6 @@
 package com.taxis99.aws
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{ mock, times, verify, when }
@@ -8,7 +8,6 @@ import org.scalatest.{ BeforeAndAfter, MustMatchers, WordSpec }
 
 import com.amazonaws.services.sns.AmazonSNS
 import com.amazonaws.services.sns.model._
-import com.amazonaws.services.sqs.AmazonSQSClient
 import com.amazonaws.services.sqs.model._
 import com.amazonaws.services.sqs.AmazonSQS
 import com.taxis99.aws.credentials.BasicAWSCredentialsProvider
@@ -35,7 +34,7 @@ class SNSSQSSubscriberSpec extends WordSpec with MustMatchers with BeforeAndAfte
       when(sqs.createQueue(new CreateQueueRequest("@queue")))
         .thenReturn(new CreateQueueResult().withQueueUrl("@queueUrl"))
       when(sqs.getQueueAttributes(any()))
-        .thenReturn(new GetQueueAttributesResult().withAttributes(Map(QueueAttributeName.QueueArn.toString -> "@queueArn")))
+        .thenReturn(new GetQueueAttributesResult().withAttributes(Map(QueueAttributeName.QueueArn.toString -> "@queueArn").asJava))
       sqs
     }
   }
