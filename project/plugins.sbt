@@ -23,15 +23,15 @@ addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
 
 
 // SBT-Scoverage version must be compatible with SBT-coveralls version below
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.1")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
 
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.1.0")
 
 
 addSbtPlugin("com.updateimpact" % "updateimpact-sbt-plugin" % "2.1.1")
 
 
-addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.2.1")
+addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.3.5")
 
 
 // Provides site generation functionality
