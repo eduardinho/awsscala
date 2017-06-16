@@ -11,7 +11,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 scalaVersion := "2.12.2"
 
-crossScalaVersions := Seq("2.10.6", "2.11.7", "2.12.2")
+crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2")
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk-sqs" % awsVersion,
