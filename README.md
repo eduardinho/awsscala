@@ -39,7 +39,7 @@ To publish your library to BinTray follow these steps:
 * From the command line login to BinTray: `activator bintray::changeCredentials`
 * Change the version via Git:  `git tag vX.Y.Z`
 * Publish your library: `activator +bintray::publish`
-                Note: The `+` publishes the cross-versioned (e.g. Scala 2.10 & 2.11) builds.
+                Note: The `+` publishes the cross-versioned (e.g. Scala 2.10 & 2.11 & 2.12) builds.
                 
                 
 To enable others to use your library you can either have them add a new resolver / repository to their build or you can [add your library to Maven Central via jCenter](http://blog.bintray.com/2014/02/11/bintray-as-pain-free-gateway-to-maven-central/).
