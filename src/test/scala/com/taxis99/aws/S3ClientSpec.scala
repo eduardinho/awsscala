@@ -3,7 +3,7 @@ package com.taxis99.aws
 import java.io.{ ByteArrayInputStream, File => JFile }
 import java.net.URL
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 import org.joda.time.DateTime
 import org.mockito.Matchers.{ any, anyString, same }
@@ -26,7 +26,7 @@ class S3ClientSpec extends WordSpec with MustMatchers with BeforeAndAfter {
 
       val objectListing = mock(classOf[ObjectListing])
       when(objectListing.getObjectSummaries())
-        .thenReturn(List[S3ObjectSummary]())
+        .thenReturn(List[S3ObjectSummary]().asJava)
       when(s3.listObjects(anyString(), anyString()))
         .thenReturn(objectListing)
       when(s3.generatePresignedUrl(any[GeneratePresignedUrlRequest]))

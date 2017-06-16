@@ -2,7 +2,7 @@ package com.taxis99.aws
 
 import java.io.{ ByteArrayInputStream, File => JFile }
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 import org.joda.time.DateTime
 
@@ -41,7 +41,6 @@ class S3Client(bucketName: String)(implicit provider: AWSCredentialsProvider) {
   }
 
   def listFiles(prefix: String) = {
-    client.listObjects(bucketName, prefix).getObjectSummaries.sortBy(_.getLastModified).reverse
+    client.listObjects(bucketName, prefix).getObjectSummaries.asScala.sortBy(_.getLastModified).reverse
   }
-
 }
