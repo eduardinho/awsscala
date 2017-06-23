@@ -1,7 +1,7 @@
 name := """awsscala"""
 organization := "com.taxis99"
 
-val awsVersion = "1.11.145"
+val awsVersion = "1.11.150"
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk-sqs" % awsVersion,
   "com.amazonaws" % "aws-java-sdk-sns" % awsVersion,
   "com.amazonaws" % "aws-java-sdk-s3" % awsVersion,
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.3" % "test",
   "org.mockito" % "mockito-all" % "1.10.19" % "test"
 )
 
