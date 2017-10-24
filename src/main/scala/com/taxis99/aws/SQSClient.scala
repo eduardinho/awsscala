@@ -1,11 +1,12 @@
 package com.taxis99.aws
 
 import scala.collection.JavaConverters._
-
 import com.amazonaws.auth.AWSCredentials
-import com.amazonaws.services.sqs.{ AmazonSQS, AmazonSQSClient }
+import com.amazonaws.services.sqs.{AmazonSQS, AmazonSQSClient}
 import com.amazonaws.services.sqs.model._
 import com.taxis99.aws.credentials.AWSCredentialsProvider
+
+import scala.concurrent.duration.Duration
 
 /**
  * Client to handle SQS Interface
@@ -21,11 +22,18 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
     (newClient, newQueueUrl)
   }
 
+  private def parseAttribute(value: String) = {
+    val attribute = new MessageAttributeValue
+    attribute.setDataType("String")
+    attribute.setStringValue(value)
+    attribute
+  }
+
   def fetchMessage() = fetchMessages(maxNumberOfMessages = 1).headOption
 
   /**
-   * @param maxNumberOfMessages must be between 1 and 10.
-   */
+    * @param maxNumberOfMessages must be between 1 and 10.
+    */
   def fetchMessages(maxNumberOfMessages: Int): List[Message] = {
     val request = (new ReceiveMessageRequest(queueUrl)).withMaxNumberOfMessages(maxNumberOfMessages).withAttributeNames("ApproximateReceiveCount", "SentTimestamp")
     client.receiveMessage(request).getMessages().asScala.toList
@@ -41,15 +49,16 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
     if (messages.nonEmpty) {
       client.deleteMessageBatch(queueUrl, messages.map { message =>
         new DeleteMessageBatchRequestEntry()
-          .withId(message.getMessageId)
-          .withReceiptHandle(message.getReceiptHandle)
+        .withId(message.getMessageId)
+        .withReceiptHandle(message.getReceiptHandle)
       }.asJava)
     }
   }
 
-  def send(body: String): Unit = {
-    client.sendMessage(new SendMessageRequest(queueUrl, body))
+  def send(body: String, messageParameter: Map[String,String] = Map.empty): Unit = {
+    client.sendMessage(new SendMessageRequest(queueUrl, body).withMessageAttributes(messageParameter.mapValues(parseAttribute).asJava))
   }
+
 
   def approximateNumberOfMessages(): Integer = {
     val approxNumOfMessagesAttributeName = QueueAttributeName.ApproximateNumberOfMessages.toString
