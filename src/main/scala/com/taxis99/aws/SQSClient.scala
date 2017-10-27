@@ -1,7 +1,6 @@
 package com.taxis99.aws
 
 import scala.collection.JavaConverters._
-import scala.concurrent.duration.Duration
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.services.sqs.{ AmazonSQS, AmazonSQSClient }
