@@ -1,12 +1,12 @@
 package com.taxis99.aws
 
 import scala.collection.JavaConverters._
+import scala.concurrent.duration.Duration
+
 import com.amazonaws.auth.AWSCredentials
-import com.amazonaws.services.sqs.{AmazonSQS, AmazonSQSClient}
+import com.amazonaws.services.sqs.{ AmazonSQS, AmazonSQSClient }
 import com.amazonaws.services.sqs.model._
 import com.taxis99.aws.credentials.AWSCredentialsProvider
-
-import scala.concurrent.duration.Duration
 
 /**
  * Client to handle SQS Interface
@@ -49,13 +49,13 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
     if (messages.nonEmpty) {
       client.deleteMessageBatch(queueUrl, messages.map { message =>
         new DeleteMessageBatchRequestEntry()
-        .withId(message.getMessageId)
-        .withReceiptHandle(message.getReceiptHandle)
+          .withId(message.getMessageId)
+          .withReceiptHandle(message.getReceiptHandle)
       }.asJava)
     }
   }
 
-  def send(body: String, messageParameter: Map[String,String] = Map.empty): Unit = {
+  def send(body: String, messageParameter: Map[String, String] = Map.empty): Unit = {
     client.sendMessage(new SendMessageRequest(queueUrl, body).withMessageAttributes(messageParameter.mapValues(parseAttribute).asJava))
   }
 
