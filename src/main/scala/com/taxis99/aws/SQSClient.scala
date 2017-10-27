@@ -25,8 +25,8 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
   def fetchMessage() = fetchMessages(maxNumberOfMessages = 1).headOption
 
   /**
-    * @param maxNumberOfMessages must be between 1 and 10.
-    */
+   * @param maxNumberOfMessages must be between 1 and 10.
+   */
   def fetchMessages(maxNumberOfMessages: Int): List[Message] = {
     val request = (new ReceiveMessageRequest(queueUrl)).withMaxNumberOfMessages(maxNumberOfMessages).withAttributeNames("ApproximateReceiveCount", "SentTimestamp")
     client.receiveMessage(request).getMessages().asScala.toList
