@@ -22,13 +22,6 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
     (newClient, newQueueUrl)
   }
 
-  private def parseAttribute(value: String) = {
-    val attribute = new MessageAttributeValue
-    attribute.setDataType("String")
-    attribute.setStringValue(value)
-    attribute
-  }
-
   def fetchMessage() = fetchMessages(maxNumberOfMessages = 1).headOption
 
   /**
@@ -56,7 +49,15 @@ class SQSClient(queueName: String, sqsEndpoint: String)(implicit provider: AWSCr
   }
 
   def send(body: String, messageParameter: Map[String, String] = Map.empty): Unit = {
-    client.sendMessage(new SendMessageRequest(queueUrl, body).withMessageAttributes(messageParameter.mapValues(parseAttribute).asJava))
+
+    def transformAttribute(value: String): MessageAttributeValue = {
+      val attribute = new MessageAttributeValue
+      attribute.setDataType("String")
+      attribute.setStringValue(value)
+      attribute
+    }
+
+    client.sendMessage(new SendMessageRequest(queueUrl, body).withMessageAttributes(messageParameter.mapValues(transformAttribute).asJava))
   }
 
 
